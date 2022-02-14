@@ -13,7 +13,7 @@ namespace app\controller;
 
 class Hello
 {
-    public function hello()
+    public function helloworld()
     {
         return 'hello，world！';
     }
