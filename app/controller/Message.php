@@ -4,6 +4,10 @@ use think\facade\Db;
 use think\facade\Request;
 
 class Message {
+    public function test(){
+        var_dump(456);
+    }
+
     //发布新树洞
     public function publish_new_message(){
         //校验参数是否存在
