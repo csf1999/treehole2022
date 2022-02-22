@@ -24,15 +24,15 @@ return [
             // 数据库类型
             'type' => 'mysql',
             // 服务器地址
-            'hostname' => preg_split('/:/',getenv('MYSQL_ADDRESS'))[0],
+            'hostname' => 'sh-cynosdbmysql-grp-lx8okmj4.sql.tencentcdb.com',
             // 服务器端口
-            'hostport' =>  preg_split('/:/',getenv('MYSQL_ADDRESS'))[1],
+            'hostport' =>  '27962',
             // 用户名
-            'username' => getenv('MYSQL_USERNAME'),
+            'username' => 'root',
             // 密码
             'password' => 'Admin1234',
             // 数据库名
-            'database' => (getenv('MYSQL_DATABASE') == null) ? 'treehole' : getenv('MYSQL_DATABASE'),
+            'database' => 'treehole',
             // 数据库连接参数
             'params' => [],
             // 数据库编码默认采用utf8
