@@ -30,7 +30,7 @@ return [
             // 用户名
             'username' => getenv('MYSQL_USERNAME'),
             // 密码
-            'password' => getenv('MYSQL_PASSWORD'),
+            'password' => 'Admin1234',
             // 数据库名
             'database' => (getenv('MYSQL_DATABASE') == null) ? 'treehole' : getenv('MYSQL_DATABASE'),
             // 数据库连接参数
