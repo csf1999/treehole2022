@@ -1,7 +1,7 @@
 <?php
 namespace app\controller;
-use think\Facade\Db;
-use think\Facade\Request;
+use think\facade\Db;
+use think\facade\Request;
 
 class Message {
     //发布新树洞
