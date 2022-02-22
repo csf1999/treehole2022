@@ -1,106 +1,109 @@
 <?php
 namespace app\Controller;
 
-//use Think\Controller;
+use think\Facade\Db;
+use think\Facade\Request;
+
 class User {
 
+    public function test(){
+        var_dump(789);
+    }
     public function sign(){
-        if(!$_POST['username']){
+        if(!Request::post('username')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:username';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
-        if(!$_POST['phone']){
+        if(!Request::post('phone')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:phone';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
-        if(!$_POST['password']){
+        if(!Request::post('password')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:password';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
-        if(!$_POST['password_again']){
+        if(!Request::post('password_again')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:password_again';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
 
-        if($_POST['password_again'] != $_POST['password']){
+        if(Request::post('password_again') != Request::post('password')){
             $return_data = array();
             $return_data['error_code'] = 2;
             $return_data['msg'] = '两次密码不一致';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
         
-        $User = M('User');
         $where = array();
-        $where['phone'] = $_POST['phone'];        
-        $user = $User->where($where)->find();
+        $where['phone'] = Request::post('phone');        
+        $user = Db::name('User')->where($where)->find();
         if($user){
             $return_data = array();
             $return_data['error_code'] = 3;
             $return_data['msg'] = '该手机号已经被注册';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
         else{
             $data = array();
-            $data['username'] = $_POST['username'];
-            $data['phone'] = $_POST['phone'];
-            $data['password'] = md5($_POST['password']);
-            $data['face_url'] = $_POST['face_url'];
+            $data['username'] = Request::post('username');
+            $data['phone'] = Request::post('phone');
+            $data['password'] = md5(Request::post('password'));
+            $data['face_url'] = Request::post('face_url');
 
-            $result = $User->add($data);
+            $result = Db::name('User')->save($data);
 
             if($result){
                 $return_data = array();
                 $return_data['error_code'] = 0;
                 $return_data['msg'] = '注册成功';
                 $return_data['data']['user_id'] = $result;
-                $return_data['data']['username'] = $_POST['username'];
-                $return_data['data']['phone'] = $_POST['phone'];
-                $return_data['data']['password'] = $_POST['password'];
-                $return_data['data']['face_url'] = $_POST['face_url'];
-                $this->ajaxReturn($return_data);
+                $return_data['data']['username'] = Request::post('username');
+                $return_data['data']['phone'] = Request::post('phone');
+                $return_data['data']['password'] = Request::post('password');
+                $return_data['data']['face_url'] = Request::post('face_url');
+                return json($return_data);
             }
             else{
                 $return_data = array();
                 $return_data['error_code'] = 4;
                 $return_data['msg'] = '注册失败';
-                $this->ajaxReturn($return_data);
+                return json($return_data);
             }
         }
     }
 
     public function login(){
-        if(!$_POST['phone']){
+        if(!Request::post('phone')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:phone';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
-        if(!$_POST['password']){
+        if(!Request::post('password')){
             $return_data = array();
             $return_data['error_code'] = 1;
             $return_data['msg'] = '参数不足:password';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
 
-        $User = M('User');
         $where = array();
-        $where['phone'] = $_POST['phone'];
-        $user = $User->where($where)->find();
+        $where['phone'] = Request::post('phone');
+        $user = Db::name('User')->where($where)->find();
 
         if($user){
-            if(md5($_POST['password']) != $user['password']){
+            if(md5(Request::post('password')) != $user['password']){
                 $return_data = array();
                 $return_data['error_code'] = 3;
                 $return_data['msg'] = '密码不正确，请重新输入';
-                $this->ajaxReturn($return_data);
+                return json($return_data);
             }
             else{
                 $return_data = array();
@@ -110,19 +113,15 @@ class User {
                 $return_data['data']['username'] = $user['username'];
                 $return_data['data']['phone'] = $user['phone'];
                 $return_data['data']['face_url'] = $user['face_url'];
-                $this->ajaxReturn($return_data);
-
+                return json($return_data);
             }
         }
         else{
             $return_data = array();
             $return_data['error_code'] = 2;
             $return_data['msg'] = '不存在该手机号用户，请注册';
-            $this->ajaxReturn($return_data);
+            return json($return_data);
         }
-
-        
-        dump($_POST);
     }
 }
 
