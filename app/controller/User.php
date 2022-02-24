@@ -58,13 +58,13 @@ class User {
             $data['password'] = md5(Request::post('password'));
             $data['face_url'] = Request::post('face_url');
 
-            $result = Db::name('User')->save($data);
+            $result = Db::name('User')->insertGetId($data);
 
             if($result){
                 $return_data = array();
                 $return_data['error_code'] = 0;
                 $return_data['msg'] = '注册成功';
-                $return_data['data']['user_id'] = Request::post('id');
+                $return_data['data']['user_id'] = $result;
                 $return_data['data']['username'] = Request::post('username');
                 $return_data['data']['phone'] = Request::post('phone');
                 $return_data['data']['password'] = Request::post('password');
